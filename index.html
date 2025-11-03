@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scream or Stream</title>
+    <!-- Google Fonts: choose fonts inspired by the minimal Yeezy aesthetic -->
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Oswald:wght@300;400;500&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset margin and padding for clean layout */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            color: #eee;
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            /* relative positioning to allow pseudo-element overlay */
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Global animated overlay to give subtle movement across the entire page */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            background: repeating-linear-gradient(
+                180deg,
+                rgba(255, 255, 255, 0.02) 0px,
+                rgba(255, 255, 255, 0.02) 2px,
+                rgba(255, 255, 255, 0.01) 2px,
+                rgba(255, 255, 255, 0.01) 4px
+            );
+            mix-blend-mode: overlay;
+            z-index: -1;
+            animation: scan 12s linear infinite;
+        }
+
+        /* Navigation styling */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            transition: background-color 0.3s ease;
+        }
+
+        nav.scrolled {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        nav a {
+            color: #eee;
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            transition: color 0.2s ease;
+        }
+
+        nav a:hover {
+            color: #ff2e2e;
+        }
+
+        /* Hero section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            background-image: url('400cbc23-c270-4cf6-95a6-c5b183b46791.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+            /* Slowly zoom the hero section for a visible moving effect */
+            animation: zoomInOut 30s ease-in-out infinite alternate;
+            transform-origin: center;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.85) 20%, rgba(0, 0, 0, 0.95) 100%);
+            z-index: 0;
+        }
+
+        /* Animated scan-line overlay on hero for subtle motion */
+        .hero::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            /* Create thin horizontal lines with slight transparency */
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(255, 255, 255, 0.05) 0px,
+                rgba(255, 255, 255, 0.05) 2px,
+                rgba(255, 255, 255, 0.02) 2px,
+                rgba(255, 255, 255, 0.02) 4px
+            );
+            mix-blend-mode: overlay;
+            pointer-events: none;
+            z-index: 2;
+            animation: scan 8s linear infinite;
+        }
+
+        /* Keyframes to animate the scan lines moving vertically */
+        @keyframes scan {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 0 100%;
+            }
+        }
+
+        /* Keyframes to gently scale the hero section for visible movement */
+        @keyframes zoomInOut {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.1);
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 80%;
+        }
+
+        .hero h1 {
+            font-family: 'VT323', monospace;
+            font-size: 6rem;
+            color: #fff;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .hero .tagline {
+            margin-top: 1rem;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            color: #ccc;
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 0.8rem 2rem;
+            border: 2px solid #ff2e2e;
+            color: #ff2e2e;
+            text-decoration: none;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #ff2e2e;
+            color: #000;
+        }
+
+        /* Section styling */
+        section {
+            padding: 4rem 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        section h2 {
+            font-family: 'VT323', monospace;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #ff2e2e;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 1px solid #222;
+            padding-bottom: 0.5rem;
+        }
+
+        section p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Trailer placeholder */
+        .trailer-placeholder {
+            background-color: #111;
+            border: 2px dashed #333;
+            height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+        }
+
+        /* Cast list */
+        .cast {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 2rem;
+        }
+
+        .cast-item {
+            background-color: #111;
+            padding: 1.5rem;
+            border-radius: 4px;
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+
+        .cast-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .cast-item h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.1rem;
+            color: #ff2e2e;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .cast-item p {
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #010101;
+            color: #666;
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.8rem;
+        }
+        footer a {
+            color: #ff2e2e;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive typography */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 4rem;
+            }
+            .hero .tagline {
+                font-size: 1.2rem;
+            }
+            .btn {
+                padding: 0.6rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="logo" style="font-family: 'VT323', monospace; font-size: 2rem; color: #ff2e2e;">
+            S/O/S
+        </div>
+        <div class="nav-links">
+            <a href="#synopsis">Synopsis</a>
+            <a href="#trailer">Trailer</a>
+            <a href="#cast">Cast & Crew</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero section with dramatic background -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Scream or Stream</h1>
+            <p class="tagline">A short film that will haunt your screen</p>
+            <a href="#trailer" class="btn">Watch the trailer</a>
+        </div>
+    </header>
+
+    <!-- Synopsis section -->
+    <section id="synopsis">
+        <h2>Synopsis</h2>
+        <p>Kenny is an up‑and‑coming content creator whose channel needs a spark. When an anonymous fan sends him a link to a forgotten horror stream, he gathers his friends for what he thinks will be a fun watch party. As the film plays, the scenes begin to tailor themselves to their lives, exposing secrets and summoning their deepest fears.</p>
+        <p>With each pause and comment, the curse behind the stream grows stronger, feeding off their reactions. Trapped between saving his friends and chasing the views he craves, Kenny teams up with his mysterious neighbor Mr. Langley to unravel the truth before the final frame plays and seals their fate. <em>Scream or Stream</em> fuses age‑old legends with the perils of modern streaming, asking: how far will you go for the perfect stream?</p>
+    </section>
+
+    <!-- Trailer section -->
+    <section id="trailer">
+        <h2>Trailer</h2>
+        <div class="trailer-placeholder">
+            Trailer coming soon
+        </div>
+    </section>
+
+    <!-- Cast & Crew section -->
+    <section id="cast">
+        <h2>Cast &amp; Crew</h2>
+        <div class="cast">
+            <div class="cast-item">
+                <h3>Manajorie Murry</h3>
+                <p>Director &amp; Writer</p>
+            </div>
+            <div class="cast-item">
+                <h3>Eme “Benji” Matthew</h3>
+                <p>Lead Actor / Executive Producer</p>
+            </div>
+            <div class="cast-item">
+                <h3>Paul Stevenson</h3>
+                <p>Supporting Actor (Mr Langley)</p>
+            </div>
+            <div class="cast-item">
+                <h3>Josh Gordon</h3>
+                <p>Cinematography</p>
+            </div>
+            <div class="cast-item">
+                <h3>Arima</h3>
+                <p>Boom Operator</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact section -->
+    <section id="contact">
+        <h2>Contact</h2>
+        <p>Interested in screenings, collaborations, or learning more about the film? Reach out to us at <a href="mailto:info@screamorstreamfilm.com">info@screamorstreamfilm.com</a>.</p>
+        <p>Follow us on Instagram: <a href="https://instagram.com/streamorscream" target="_blank">@streamorscream</a></p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2025 Scream or Stream. All rights reserved.
+    </footer>
+
+    <script>
+        // Add scroll effect to change nav background after hero section
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 60) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
